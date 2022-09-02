@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  rbac_database:
+    container_name: rbac_database
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: 'db0'
+      MYSQL_ROOT_PASSWORD: 'mysql_pass'
+    ports:
+      - '3306:3306'
+
+  api_rbac:
+    container_name: api_rbac
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      ENVIRONMENT: 'local'
+      SK_DATABASE_USER: 'root'
+      SK_DATABASE_PASS: 'mysql_pass'
+      SK_DATABASE_ENDPOINT: 'rbac_database:3306'
+      DATABASE_AUTHZ: 'db0'
+      UVICORN_PORT: 5001
+      UVICORN_HOST: '0.0.0.0'
+    ports:
+      - '5001:5001'
+    command:
+      - '/bin/bash'
+      - '-c'
+      - 'python3 -m gunicorn -c config.py src:app --preload'
+    volumes:
+      - /Users/phraulino/Jobs/authz:/src
+    networks:
+      - db-network
+
+networks:
+  db-network:
+    driver: bridge

@@ -2,7 +2,6 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=flask,python,visualstudiocode,pycharm
 ## Local Development
 Dockerfile*.local
-docker-compose.yml
 tmp/*
 
 ### Flask ###
