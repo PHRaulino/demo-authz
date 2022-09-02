@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "API_RBAC_AUTHZ"
+version = "1.0.0"
+description = "API RBAC for authorization"
+authors = ["Paulo Henrique <phraulino@outlook.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+fastapi = {extras = ["all"], version = "^0.79.0"}
+pytest = "5.4"
+pytest-cov = "^3.0.0"
+boto3 = "^1.24.36"
+PyMySQL = "^1.0.2"
+SQLAlchemy = "^1.4.39"
+fastapi-health = "^0.4.0"
+pytz = "^2022.1"
+python-json-logger = "^2.0.4"
+fastapi-jwt-auth = "^0.5.0"
+gunicorn = "^20.1.0"
+requests = "^2.28.1"
+pytest-mock = "^3.8.2"
+
+[tool.poetry.dev-dependencies]
+tox = "^3.25.1"
+black = {version = "^22.6.0", allow-prereleases = true}
+flake8 = "^4.0.1"
+pre-commit = "^2.20.0"
+bandit = "^1.7.4"
+ipython = "7.34.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
