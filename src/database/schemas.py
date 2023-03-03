@@ -50,7 +50,6 @@ class GroupSchema(BaseModel):
     nom_grup_usua: str
     des_grup_usua: str
     dat_hor_atui: datetime
-    policies: List[PolicySchema] = []
 
     class Config:
         orm_mode = True
@@ -61,8 +60,7 @@ class UserSchema(BaseModel):
     dat_hor_atui: datetime
     nom_orig_usua: str
     idef_user: str
-    groups: List[str] = []
-    policies: List[str] = []
+    groups: List[GroupSchema] = []
 
     class Config:
         orm_mode = True

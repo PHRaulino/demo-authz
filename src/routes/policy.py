@@ -48,7 +48,6 @@ def read_policies(db: Session = Depends(get_db)):
 @router.post("/policy", response_model=schemas.PolicySchema)
 def create_policy(
     policy: PolicyRequestSchema,
-    token=Depends(auth_scheme),
     db: Session = Depends(get_db),
 ):
     if authz_policy.authorize(1, token):
@@ -60,19 +59,12 @@ def create_policy(
                 detail={"message": e.args[0]},
             )
         return response
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail={"message": "Usuario sem acesso a funcionalidade"},
-        )
 
 
 @router.put(
     "/policy/{id_policy}/activate", response_model=schemas.PolicySchema
 )
-def active_policy(
-    id_policy: int, token=Depends(auth_scheme), db: Session = Depends(get_db)
-):
+def active_policy(id_policy: int, db: Session = Depends(get_db)):
     policy = {"ind_situ_pltc_ativ": "S"}
     if authz_policy.authorize(3, token):
         try:
@@ -83,19 +75,12 @@ def active_policy(
                 detail={"message": e.args[0]},
             )
         return response
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail={"message": "Usuario sem acesso a funcionalidade"},
-        )
 
 
 @router.put(
     "/policy/{id_policy}/deactivate", response_model=schemas.PolicySchema
 )
-def deactivate_policy(
-    id_policy: int, token=Depends(auth_scheme), db: Session = Depends(get_db)
-):
+def deactivate_policy(id_policy: int, db: Session = Depends(get_db)):
     policy = {"ind_situ_pltc_ativ": "N"}
     if authz_policy.authorize(3, token):
         try:
@@ -106,18 +91,12 @@ def deactivate_policy(
                 detail={"message": e.args[0]},
             )
         return response
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail={"message": "Usuario sem acesso a funcionalidade"},
-        )
 
 
 @router.put("/policy/{id_policy}", response_model=schemas.PolicySchema)
 def update_policy(
     id_policy: int,
     policy: PolicyRequestSchema,
-    token=Depends(auth_scheme),
     db: Session = Depends(get_db),
 ):
     if authz_policy.authorize(3, token):
@@ -129,17 +108,10 @@ def update_policy(
                 detail={"message": e.args[0]},
             )
         return response
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail={"message": "Usuario sem acesso a funcionalidade"},
-        )
 
 
 @router.delete("/policy/{id_policy}")
-def delete_policy(
-    id_policy: int, token=Depends(auth_scheme), db: Session = Depends(get_db)
-):
+def delete_policy(id_policy: int, db: Session = Depends(get_db)):
     if authz_policy.authorize(4, token):
         try:
             crud.delete_policy(db, id_policy)
@@ -149,8 +121,3 @@ def delete_policy(
                 detail={"message": e.args[0]},
             )
         return {f"Policy {id_policy} deleted!"}
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail={"message": "Usuario sem acesso a funcionalidade"},
-        )

@@ -2,14 +2,14 @@ from fastapi import APIRouter
 from fastapi_health import health
 from sqlalchemy.orm import Session
 
-from src.database import SessionLocal
+from src.database import DBManager
 
 router = APIRouter()
 
 
 def is_database_online():
     try:
-        db: Session = SessionLocal()
+        db: Session = DBManager().SessionLocal()
         connection = db.connection()
         status = connection._still_open_and_dbapi_connection_is_valid
         db.close()

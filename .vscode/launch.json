@@ -1,26 +1,21 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Python: FastAPI",
-            "type": "python",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "src:app",
-                "--port",
-                "5000",
-                "--reload"
-            ],
-            "jinja": true,
-            "justMyCode": true,
-            "env": {
-                "ENVIRONMENT": "local",
-                "SK_DATABASE_USER": "root",
-                "SK_DATABASE_PASS": "mysql_pass",
-                "SK_DATABASE_ENDPOINT": "localhost:3306",
-                "DATABASE_AUTHZ": "db0"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["src:app", "--port", "5000", "--reload"],
+      "jinja": true,
+      "justMyCode": true,
+      "env": {
+        "ENVIRONMENT": "local",
+        "SK_DATABASE_USER": "root",
+        "SK_DATABASE_PASS": "mysql_pass",
+        "SK_DATABASE_ENDPOINT": "localhost:3306",
+        "DATABASE_AUTHZ": "cadastro"
+      }
+    }
+  ]
 }
