@@ -10,6 +10,7 @@ env_map = {
     "DB_PASS": "SK_DATABASE_PASS",
     "DB_HOST": "SK_DATABASE_ENDPOINT",
     "DB_DATABASE": "DATABASE_AUTHZ",
+    "CONF_PATH": "CONF_PATH",
 }
 
 

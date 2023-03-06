@@ -1,38 +1,20 @@
-import logging
+import glob
+import os
 
-from fastapi import FastAPI
-from starlette.responses import FileResponse
-
-from src.database import DBManager, models
-from src.routes import health, user, version
-from src.tools import environ, log_utils
-
-db = DBManager()
-
-models.Base.metadata.drop_all(bind=db.engine)
-models.Base.metadata.create_all(bind=db.engine)
-
-if environ("ENV") != "local":
-    log_utils.setup_custom_logger("root")
-    log_utils.setup_custom_logger("gunicorn.access")
-    log_utils.setup_custom_logger("gunicorn.error")
-    logger = logging.getLogger("root")
-    logger.propagate = False
-
-app = FastAPI()
-favicon_path = "src/assets/favicon.ico"
+sort = ["List.py", "Task.py", "TypeTask.py", "Relationship.py"]
 
 
-@app.get("/favicon.ico")
-async def favicon():
-    return FileResponse(favicon_path)
+def import_tables(src, sort=[]):
+    if len(sort) == 0:
+        files = glob.glob("{}/**/*.py".format(src), recursive=True)
+    else:
+        files = ["{}/{}".format(src, f) for f in sort]
+
+    for file in [f for f in files if "__" not in f]:
+        module = os.path.splitext(file)[0].replace("/", ".")
+        __import__(module)
 
 
-app.include_router(version.router, tags=["Version"])
-app.include_router(user.router, tags=["User"])
-# app.include_router(group.router, tags=["Group"])
-# app.include_router(policy.router, tags=["Policies"])
-# app.include_router(action.router, tags=["Action"])
-# app.include_router(functionality.router, tags=["Functionality"])
-# app.include_router(relationship.router, prefix="/relationship")
-app.include_router(health.router, tags=["Health Check"])
+import_tables("src/database/models", sort)
+import_tables("src/database/schemas")
+import_tables("src/database/functions")

@@ -1,0 +1,6 @@
+{
+  "List": "tb_lists",
+  "Task": "tb_tasks",
+  "TypeTask": "tb_type_tasks",
+  "ListTaskType": "tb_list_type_tasks"
+}

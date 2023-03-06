@@ -1,8 +1,10 @@
+import contextlib
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from src.database.dbconfig import RDSCredentials
+from src.database.config.credentials import RDSCredentials
 from src.tools import SingletonMeta
 
 Base = declarative_base()
@@ -31,3 +33,15 @@ class DBManager(metaclass=SingletonMeta):
             yield db
         finally:
             db.close()
+
+    @contextlib.contextmanager
+    def get_session_with_ctx(self):
+        session = self.SessionLocal()
+        try:
+            yield session
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        finally:
+            session.close()

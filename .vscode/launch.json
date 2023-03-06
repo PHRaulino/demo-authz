@@ -6,7 +6,7 @@
       "type": "python",
       "request": "launch",
       "module": "uvicorn",
-      "args": ["src:app", "--port", "5000", "--reload"],
+      "args": ["src.main:app", "--port", "5000", "--reload"],
       "jinja": true,
       "justMyCode": true,
       "env": {
@@ -14,7 +14,8 @@
         "SK_DATABASE_USER": "root",
         "SK_DATABASE_PASS": "mysql_pass",
         "SK_DATABASE_ENDPOINT": "localhost:3306",
-        "DATABASE_AUTHZ": "cadastro"
+        "CONF_PATH": "src/database/config/config_tables.json",
+        "DATABASE_AUTHZ": "app"
       }
     }
   ]
