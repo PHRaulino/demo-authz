@@ -35,13 +35,25 @@ def test_get_list_without_task_v1(client, db):
             )
 
     t1 = timeit.timeit(
-        lambda: ListTable.get_list_without_task_handwork(db=db), number=100
+        lambda: ListTable.get_list_without_task_handwork(db=db), number=10000
     )
     t2 = timeit.timeit(
-        lambda: ListTable.get_list_without_task_subquery(db=db), number=100
+        lambda: ListTable.get_list_without_task_subquery(db=db), number=10000
+    )
+    t3 = timeit.timeit(
+        lambda: ListTable.get_list_without_task_with_session_cursor(db=db),
+        number=10000,
+    )
+    t4 = timeit.timeit(
+        lambda: ListTable.get_list_without_task_with_engine_cursor(),
+        number=10000,
     )
     time1 = f"Tempo de execução da função: {t1:.5f} segundos"
     time2 = f"Tempo de execução da função: {t2:.5f} segundos"
-    print(time1)
+    time3 = f"Tempo de execução da função: {t3:.5f} segundos"
+    time4 = f"Tempo de execução da função: {t4:.5f} segundos"
+    print(f"\n{time1}")
     print(time2)
+    print(time3)
+    print(time4)
     print("Finish")
